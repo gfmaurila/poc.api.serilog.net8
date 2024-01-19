@@ -21,7 +21,7 @@ Este projeto é uma Minimal API em .NET Core 8, focado em operações CRUD de pr
 ## Configuração e Instalação
 
 ### Clonando o Repositório
-Clone o repositório usando: https://github.com/gfmaurila/poc.api.serilog.net8.net8
+Clone o repositório usando: https://github.com/gfmaurila/poc.api.serilog.net8
 
 ### Configurando o Docker e Docker Compose
 docker-compose up --build
