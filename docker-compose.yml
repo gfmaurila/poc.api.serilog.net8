@@ -1,0 +1,55 @@
+version: '3.9'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+
+  poc.api.serilog.net8-webapi:
+    image: ${DOCKER_REGISTRY-}poc.api.serilog.net8-webapi
+    container_name: poc.api.serilog.net8-webapi
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 5071
+    ports:
+      - 5071:5071
+    links:
+      - sqlserver
+      - mongoserver
+    networks:
+      - app-network
+    depends_on:
+      - sqlserver
+      - mongoserver
+
+  # SQL Server
+  sqlserver:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    cap_add: [ 'SYS_PTRACE' ]
+    hostname: mssql
+    container_name: sqlserver
+    restart: always
+    expose:
+      - 1433
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=@Poc2Minimal@Api
+    networks:
+      - app-network
+
+  mongoserver:
+    image: mongo:latest
+    container_name: mongoserver
+    restart: always
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    networks:
+      - app-network
